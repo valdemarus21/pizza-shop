@@ -6,11 +6,14 @@ import { Header } from './components/Header';
 import { Home } from './pages/Home';
 import { NotFound } from './pages/NotFound';
 import { Cart } from './pages/Cart';
+import { Provider } from 'react-redux'
+import { store } from './redux/store';
 export const SearchContext = React.createContext();
 function App() {
 	const [searchValue, setSearchValue] = React.useState('');
 	return (
 		<SearchContext.Provider value={{ searchValue, setSearchValue }}>
+			<Provider store={store}>
 			<div className="App">
 				<div className="wrapper">
 					<Header />
@@ -23,6 +26,7 @@ function App() {
 					</div>
 				</div>
 			</div>
+			</Provider>
 		</SearchContext.Provider>
 	);
 }
