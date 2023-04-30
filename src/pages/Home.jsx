@@ -4,11 +4,11 @@ import { Sort } from '../components/Sort';
 import { PizzaBlock } from '../components/PizzaBlock/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import { Pagination } from '../components/Pagination';
-import { useSelector } from '@reduxjs/toolkit'
-import { SearchContext } from '../App';
 
+import { SearchContext } from '../App';
 export function Home() {
-	const { searchValue} = React.useContext(SearchContext)
+	// const categoryId = useSelector((state) => state.filter.categoryId);
+	const { searchValue } = React.useContext(SearchContext);
 	const [pizzaItems, setPizzaItems] = React.useState([]);
 	const [isLoading, setIsLoading] = React.useState(true);
 	const [categoryId, setCategoryId] = React.useState(0);
@@ -16,7 +16,7 @@ export function Home() {
 		name: 'популярності',
 		sortProperty: 'rating',
 	});
-	const [currentPage, setCurrentPage] = React.useState(1)
+	const [currentPage, setCurrentPage] = React.useState(1);
 	React.useEffect(() => {
 		try {
 			setIsLoading(true);
@@ -45,7 +45,7 @@ export function Home() {
 			</div>
 			<h2 className="content__title">Усі піцци</h2>
 			<div className="content__items">{isLoading ? skeleton : pizzas}</div>
-			<Pagination onChangePage={number => setCurrentPage(number)} />
+			<Pagination onChangePage={(number) => setCurrentPage(number)} />
 		</div>
 	);
 }
