@@ -4,8 +4,11 @@ import { Sort } from '../components/Sort';
 import { PizzaBlock } from '../components/PizzaBlock/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import { Pagination } from '../components/Pagination';
+import { useSelector } from '@reduxjs/toolkit'
+import { SearchContext } from '../App';
 
-export function Home({ searchValue }) {
+export function Home() {
+	const { searchValue} = React.useContext(SearchContext)
 	const [pizzaItems, setPizzaItems] = React.useState([]);
 	const [isLoading, setIsLoading] = React.useState(true);
 	const [categoryId, setCategoryId] = React.useState(0);
@@ -19,7 +22,7 @@ export function Home({ searchValue }) {
 			setIsLoading(true);
 			const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc';
 			const sortBy = sortType.sortProperty.replace('-', '');
-			const category = categoryId > 0 ? `category=${categoryId}` : '';
+			const category = categoryId > 0 ? `&category=${categoryId}` : '';
 			const search = searchValue ? `&search=${searchValue}` : '';
 			fetch(
 				`https://643aa752bd3623f1b9b848b9.mockapi.io/items?limit=4&page=${currentPage}${category}${search}&sortBy=${sortBy}&order=${order}`,
