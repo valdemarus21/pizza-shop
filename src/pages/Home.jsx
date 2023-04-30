@@ -3,6 +3,7 @@ import { Categories } from '../components/Categories';
 import { Sort } from '../components/Sort';
 import { PizzaBlock } from '../components/PizzaBlock/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
+import { Pagination } from '../components/Pagination';
 
 export function Home({ searchValue }) {
 	const [pizzaItems, setPizzaItems] = React.useState([]);
@@ -12,15 +13,16 @@ export function Home({ searchValue }) {
 		name: 'популярності',
 		sortProperty: 'rating',
 	});
+	const [currentPage, setCurrentPage] = React.useState(1)
 	React.useEffect(() => {
 		try {
 			setIsLoading(true);
 			const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc';
 			const sortBy = sortType.sortProperty.replace('-', '');
 			const category = categoryId > 0 ? `category=${categoryId}` : '';
-			const search = searchValue ? `&search=${searchValue}` : ''
+			const search = searchValue ? `&search=${searchValue}` : '';
 			fetch(
-				`https://643aa752bd3623f1b9b848b9.mockapi.io/items?${category}${search}&sortBy=${sortBy}&order=${order}`,
+				`https://643aa752bd3623f1b9b848b9.mockapi.io/items?limit=4&page=${currentPage}${category}${search}&sortBy=${sortBy}&order=${order}`,
 			)
 				.then((res) => res.json())
 				.then((json) => setPizzaItems(json));
@@ -29,9 +31,8 @@ export function Home({ searchValue }) {
 			console.error('Error', error);
 		}
 		window.scrollTo(0, 0);
-	}, [categoryId, sortType, searchValue]);
-	const pizzas = pizzaItems
-		.map((obj, index) => <PizzaBlock key={index} {...obj} />);
+	}, [categoryId, sortType, searchValue, currentPage]);
+	const pizzas = pizzaItems.map((obj, index) => <PizzaBlock key={index} {...obj} />);
 	const skeleton = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
 	return (
 		<div className="container">
@@ -41,6 +42,7 @@ export function Home({ searchValue }) {
 			</div>
 			<h2 className="content__title">Усі піцци</h2>
 			<div className="content__items">{isLoading ? skeleton : pizzas}</div>
+			<Pagination onChangePage={number => setCurrentPage(number)} />
 		</div>
 	);
 }
