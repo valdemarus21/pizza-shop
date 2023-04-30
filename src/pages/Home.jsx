@@ -9,8 +9,7 @@ import { SearchContext } from '../App';
 import { setCategoryId } from '../redux/slices/filterSlice';
 export function Home() {
 	const dispatch = useDispatch()
-	const categoryId = useSelector((state) => state.filter.categoryId);
-	const sortType = useSelector(state => state.filter.sort.sortProperty)
+	const { categoryId, sort } = useSelector((state) => state.filter);
 	const onChangeCategory = (id) => {
 		dispatch(setCategoryId(id))
 	}
@@ -22,8 +21,8 @@ export function Home() {
 	React.useEffect(() => {
 		try {
 			setIsLoading(true);
-			const order = sortType.includes('-') ? 'asc' : 'desc';
-			const sortBy = sortType.replace('-', '');
+			const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
+			const sortBy = sort.sortProperty.replace('-', '');
 			const category = categoryId > 0 ? `&category=${categoryId}` : '';
 			const search = searchValue ? `&search=${searchValue}` : '';
 			fetch(
@@ -36,7 +35,7 @@ export function Home() {
 			console.error('Error', error);
 		}
 		window.scrollTo(0, 0);
-	}, [categoryId, sortType, searchValue, currentPage]);
+	}, [categoryId, sort.sortProperty, searchValue, currentPage]);
 	const pizzas = pizzaItems.map((obj, index) => <PizzaBlock key={index} {...obj} />);
 	const skeleton = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
 	return (

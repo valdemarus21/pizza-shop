@@ -1,6 +1,32 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { setSort } from '../redux/slices/filterSlice';
+const list = [
+	{
+		name: 'популярності (DESC)',
+		sortProperty: 'rating',
+	},
+	{
+		name: 'популярності (ASC)',
+		sortProperty: '-rating',
+	},
+	{
+		name: 'ціні (DESC)',
+		sortProperty: 'price',
+	},
+	{
+		name: 'ціні (ASC)',
+		sortProperty: '-price',
+	},
+	{
+		name: 'алфавіту (DESC)',
+		sortProperty: 'title',
+	},
+	{
+		name: 'алфавіту (ASC)',
+		sortProperty: '-title',
+	},
+];
 export function Sort() {
 	const dispatch = useDispatch()
 	const sort = useSelector(state => state.filter.sort)
@@ -9,32 +35,6 @@ export function Sort() {
 		dispatch(setSort(obj))
 		setOpen(false);
 	};
-	const list = [
-		{
-			name: 'популярності (DESC)',
-			sortProperty: 'rating',
-		},
-		{
-			name: 'популярності (ASC)',
-			sortProperty: '-rating',
-		},
-		{
-			name: 'ціні (DESC)',
-			sortProperty: 'price',
-		},
-		{
-			name: 'ціні (ASC)',
-			sortProperty: '-price',
-		},
-		{
-			name: 'алфавіту (DESC)',
-			sortProperty: 'title',
-		},
-		{
-			name: 'алфавіту (ASC)',
-			sortProperty: '-title',
-		},
-	];
 	return (
 		<div className="sort">
 			<div className="sort__label">
