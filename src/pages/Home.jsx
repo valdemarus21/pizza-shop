@@ -13,8 +13,8 @@ import qs from 'qs';
 export function Home() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const isSearch = React.useRef(false)
-	const isMounted = React.useRef(false)
+	const isSearch = React.useRef(false);
+	const isMounted = React.useRef(false);
 	const { categoryId, sort, currentPage } = useSelector((state) => state.filter);
 	const onChangeCategory = (id) => {
 		dispatch(setCategoryId(id));
@@ -25,35 +25,33 @@ export function Home() {
 	const { searchValue } = React.useContext(SearchContext);
 	const [pizzaItems, setPizzaItems] = React.useState([]);
 	const [isLoading, setIsLoading] = React.useState(true);
-	
-	// const [currentPage, setCurrentPage] = React.useState(1);
-	const fetchPizzas = () => {
+
+	const fetchPizzas = async () => {
 		try {
 			setIsLoading(true);
 			const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
 			const sortBy = sort.sortProperty.replace('-', '');
 			const category = categoryId > 0 ? `&category=${categoryId}` : '';
 			const search = searchValue ? `&search=${searchValue}` : '';
-			axios
-				.get(
-					`https://643aa752bd3623f1b9b848b9.mockapi.io/items?limit=4&page=${currentPage}${category}${search}&sortBy=${sortBy}&order=${order}`,
-				)
-				.then((response) => setPizzaItems(response.data));
+			const response = await axios.get(
+				`https://643aa752bd3623f1b9b848b9.mockapi.io/items?limit=4&page=${currentPage}${category}${search}&sortBy=${sortBy}&order=${order}`,
+			);
+			setPizzaItems(response.data);
 			setIsLoading(false);
 		} catch (error) {
 			console.error('Error', error);
 		}
-	}
+	};
 	React.useEffect(() => {
 		window.scrollTo(0, 0);
 
-		if(!isSearch.current){
-			fetchPizzas()
+		if (!isSearch.current) {
+			fetchPizzas();
 		}
-		isSearch.current = false
+		isSearch.current = false;
 	}, [categoryId, sort.sortProperty, searchValue, currentPage]);
 	React.useEffect(() => {
-		if(isMounted.current){
+		if (isMounted.current) {
 			const queryString = qs.stringify({
 				sortProperty: sort.sortProperty,
 				categoryId,
@@ -61,7 +59,7 @@ export function Home() {
 			});
 			navigate(`?${queryString}`);
 		}
-		isMounted.current = true 
+		isMounted.current = true;
 	}, [categoryId, sort.sortProperty, currentPage]);
 	React.useEffect(() => {
 		if (window.location.search) {
@@ -73,10 +71,9 @@ export function Home() {
 					sort,
 				}),
 			);
-			isSearch.current = true
+			isSearch.current = true;
 		}
 	}, []);
-
 
 	const pizzas = pizzaItems.map((obj, index) => <PizzaBlock key={index} {...obj} />);
 	const skeleton = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
