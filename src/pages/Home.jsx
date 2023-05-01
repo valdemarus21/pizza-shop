@@ -1,32 +1,28 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
 import qs from 'qs';
 
 import { useNavigate } from 'react-router-dom';
 // slices
-import { setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
-import { fetchPizzas } from '../redux/slices/pizzaSlice';
+import { selectFilter, setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
+import { fetchPizzas} from '../redux/slices/pizzaSlice';
 // components
 import { Categories } from '../components/Categories';
 import { Sort, list } from '../components/Sort';
 import { PizzaBlock } from '../components/PizzaBlock/PizzaBlock';
 import { Pagination } from '../components/Pagination';
-import { SearchContext } from '../App';
 import Skeleton from '../components/PizzaBlock/Skeleton';
-import { setItems } from '../redux/slices/pizzaSlice';
 
 export function Home() {
-	const { searchValue } = React.useContext(SearchContext);
 
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const { categoryId, sort, currentPage } = useSelector((state) => state.filter);
+	const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
 	const pizzaItems = useSelector((state) => state.pizza.items);
 	let status = useSelector((state) => state.pizza.status);
 	const isSearch = React.useRef(false);
 	const isMounted = React.useRef(false);
-	// const [isLoading, setIsLoading] = React.useState(true);
+
 
 	const onChangeCategory = (id) => {
 		dispatch(setCategoryId(id));
@@ -43,9 +39,6 @@ export function Home() {
 			const sortBy = sort.sortProperty.replace('-', '');
 			const category = categoryId > 0 ? `&category=${categoryId}` : '';
 			const search = searchValue ? `&search=${searchValue}` : '';
-			// const { data } = await axios.get(
-			// 	`https://643aa752bd3623f1b9b848b9.mockapi.io/items?limit=4&page=${currentPage}${category}${search}&sortBy=${sortBy}&order=${order}`,
-			// );
 			dispatch(
 				fetchPizzas({
 					order,
@@ -55,7 +48,6 @@ export function Home() {
 					currentPage,
 				}),
 			);
-			// setIsLoading(false);
 		} catch (error) {
 			console.error('Error', error);
 		}
