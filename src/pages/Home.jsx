@@ -4,8 +4,8 @@ import axios from 'axios';
 import qs from 'qs';
 
 import { useNavigate } from 'react-router-dom';
-// slices 
-import { setCategoryId, setCurrentPage, setFilters,  } from '../redux/slices/filterSlice';
+// slices
+import { setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
 import { fetchPizzas } from '../redux/slices/pizzaSlice';
 // components
 import { Categories } from '../components/Categories';
@@ -16,18 +16,17 @@ import { SearchContext } from '../App';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import { setItems } from '../redux/slices/pizzaSlice';
 
-
 export function Home() {
 	const { searchValue } = React.useContext(SearchContext);
 
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { categoryId, sort, currentPage } = useSelector((state) => state.filter);
-	const pizzaItems = useSelector(state => state.pizza.items)
+	const pizzaItems = useSelector((state) => state.pizza.items);
+	let status = useSelector((state) => state.pizza.status);
 	const isSearch = React.useRef(false);
 	const isMounted = React.useRef(false);
-
-	const [isLoading, setIsLoading] = React.useState(true);
+	// const [isLoading, setIsLoading] = React.useState(true);
 
 	const onChangeCategory = (id) => {
 		dispatch(setCategoryId(id));
@@ -39,7 +38,7 @@ export function Home() {
 
 	const getPizzas = async () => {
 		try {
-			setIsLoading(true);
+			// setIsLoading(true);
 			const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
 			const sortBy = sort.sortProperty.replace('-', '');
 			const category = categoryId > 0 ? `&category=${categoryId}` : '';
@@ -47,10 +46,16 @@ export function Home() {
 			// const { data } = await axios.get(
 			// 	`https://643aa752bd3623f1b9b848b9.mockapi.io/items?limit=4&page=${currentPage}${category}${search}&sortBy=${sortBy}&order=${order}`,
 			// );
-			dispatch(fetchPizzas({
-				order, sortBy, category, search, currentPage
-			}))
-			setIsLoading(false);
+			dispatch(
+				fetchPizzas({
+					order,
+					sortBy,
+					category,
+					search,
+					currentPage,
+				}),
+			);
+			// setIsLoading(false);
 		} catch (error) {
 			console.error('Error', error);
 		}
@@ -96,9 +101,24 @@ export function Home() {
 				<Categories value={categoryId} onChangeCategory={(i) => onChangeCategory(i)} />
 				<Sort />
 			</div>
-			<h2 className="content__title">Усі піцци</h2>
-			<div className="content__items">{isLoading ? skeleton : pizzas}</div>
-			<Pagination currentPage={currentPage} onChangePage={onChangePage} />
+			{status === 'error' ? (
+				<div class="cart cart--empty" style={{marginTop:'100px'}}>
+					<h2>
+						ЙОЙ! <icon>😕</icon>
+					</h2>
+					<p>
+						Сталася помилка!
+						<br />
+						Наша команда працює над відновленням доступу...
+					</p>
+				</div>
+			) : (
+				<>
+					<h2 className="content__title">Усі піцци</h2>
+					<div className="content__items">{status === 'loading' ? skeleton : pizzas}</div>
+					<Pagination currentPage={currentPage} onChangePage={onChangePage} />
+				</>
+			)}
 		</div>
 	);
 }
