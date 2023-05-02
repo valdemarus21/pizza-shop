@@ -2,10 +2,15 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import qs from 'qs';
 
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // slices
-import { selectFilter, setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
-import { fetchPizzas} from '../redux/slices/pizzaSlice';
+import {
+	selectFilter,
+	setCategoryId,
+	setCurrentPage,
+	setFilters,
+} from '../redux/slices/filterSlice';
+import { fetchPizzas } from '../redux/slices/pizzaSlice';
 // components
 import { Categories } from '../components/Categories';
 import { Sort, list } from '../components/Sort';
@@ -14,7 +19,6 @@ import { Pagination } from '../components/Pagination';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 
 export function Home() {
-
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
@@ -22,7 +26,6 @@ export function Home() {
 	let status = useSelector((state) => state.pizza.status);
 	const isSearch = React.useRef(false);
 	const isMounted = React.useRef(false);
-
 
 	const onChangeCategory = (id) => {
 		dispatch(setCategoryId(id));
@@ -85,7 +88,11 @@ export function Home() {
 		}
 	}, []);
 
-	const pizzas = pizzaItems.map((obj, index) => <PizzaBlock key={index} {...obj} />);
+	const pizzas = pizzaItems.map((obj, index) => (
+		<Link key={index} to={`/pizza/${obj.id}`}>
+			<PizzaBlock {...obj} />
+		</Link>
+	));
 	const skeleton = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
 	return (
 		<div className="container">
@@ -94,14 +101,13 @@ export function Home() {
 				<Sort />
 			</div>
 			{status === 'error' ? (
-				<div class="cart cart--empty" style={{marginTop:'100px'}}>
+				<div class="cart cart--empty" style={{ marginTop: '100px' }}>
 					<h2>
 						ЙОЙ! <icon>😕</icon>
 					</h2>
 					<p>
 						Сталася помилка!
 						<br />
-						Наша команда працює над відновленням доступу...
 					</p>
 				</div>
 			) : (
