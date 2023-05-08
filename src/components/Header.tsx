@@ -4,9 +4,9 @@ import { Search } from './Search';
 import { useSelector } from 'react-redux';
 import { selectCart } from '../redux/slices/cartSlice';
 export function Header() {
-	const location = useLocation()
-	const {items, totalPrice} = useSelector(selectCart)
-	const totalCount = items.reduce((sum, item) => sum + item.count, 0)
+	const location = useLocation();
+	const { items, totalPrice } = useSelector(selectCart);
+	const totalCount = items.reduce((sum: number, item: any) => sum + item.count, 0);
 	return (
 		<div className="header">
 			<div className="container">
@@ -19,9 +19,9 @@ export function Header() {
 						</div>
 					</Link>
 				</div>
-				<Search/>
-					{ location.pathname !== '/cart' &&
-						<div className="header__cart">
+				<Search />
+				{location.pathname !== '/cart' && (
+					<div className="header__cart">
 						<Link to="/cart" className="button button--cart">
 							<span>{totalPrice} UAH</span>
 							<div className="button__delimiter"></div>
@@ -56,7 +56,7 @@ export function Header() {
 							<span>{totalCount}</span>
 						</Link>
 					</div>
-					}
+				)}
 			</div>
 		</div>
 	);
