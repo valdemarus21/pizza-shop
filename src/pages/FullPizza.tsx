@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-export function FullPizza(){
+export const FullPizza: React.FC = () => {
 	const { id } = useParams();
 	const [pizza, setPizza] = useState<{
-		imageUrl: string,
-		title: string,
-		price: number,
+		imageUrl: string;
+		title: string;
+		price: number;
 	}>();
 	React.useEffect(() => {
 		async function fetchPizza() {

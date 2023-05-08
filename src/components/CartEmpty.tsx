@@ -1,12 +1,12 @@
 import React from 'react';
 import image from '../assets/img/empty-cart.png';
 import { Link } from 'react-router-dom';
-export function CartEmpty() {
+export const CartEmpty: React.FC = () => {
 	return (
 		<>
-			<div class="cart cart--empty">
+			<div className="cart cart--empty">
 				<h2>
-					Кошик пустий <icon>😕</icon>
+					Кошик пустий <span>😕</span>
 				</h2>
 				<p>
 					Скоріш за все, ви ще не замовляли піццу
@@ -14,7 +14,7 @@ export function CartEmpty() {
 					Для замовлення перейдіть на головну сторінку
 				</p>
 				<img src={image} alt="empty-cart" />
-				<Link to="/" class="button button--black">
+				<Link to="/" className="button button--black">
 					<span>Повернутися назад</span>
 				</Link>
 			</div>
