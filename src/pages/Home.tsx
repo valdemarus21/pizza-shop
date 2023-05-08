@@ -17,21 +17,25 @@ import { Sort, list } from '../components/Sort';
 import { PizzaBlock } from '../components/PizzaBlock/PizzaBlock';
 import { Pagination } from '../components/Pagination';
 import Skeleton from '../components/PizzaBlock/Skeleton';
-export function Home() {
-	
+
+// 
+
+export const Home: React.FC = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
+	// @ts-ignore
 	const pizzaItems = useSelector((state) => state.pizza.items);
+	// @ts-ignore
 	let status = useSelector((state) => state.pizza.status);
 	const isSearch = React.useRef(false);
 	const isMounted = React.useRef(false);
 
-	const onChangeCategory = (id) => {
+	const onChangeCategory = (id: number) => {
 		dispatch(setCategoryId(id));
 	};
 
-	const onChangePage = (number) => {
+	const onChangePage = (number: number) => {
 		dispatch(setCurrentPage(number));
 	};
 
@@ -43,6 +47,7 @@ export function Home() {
 			const category = categoryId > 0 ? `&category=${categoryId}` : '';
 			const search = searchValue ? `&search=${searchValue}` : '';
 			dispatch(
+				// @ts-ignore
 				fetchPizzas({
 					order,
 					sortBy,
@@ -88,7 +93,7 @@ export function Home() {
 		}
 	}, []);
 
-	const pizzas = pizzaItems.map((obj, index) => (
+	const pizzas = pizzaItems.map((obj: any, index: number) => (
 		<Link key={index} to={`/pizza/${obj.id}`}>
 			<PizzaBlock {...obj} />
 		</Link>
@@ -97,13 +102,13 @@ export function Home() {
 	return (
 		<div className="container">
 			<div className="content__top">
-				<Categories value={categoryId} onChangeCategory={(i) => onChangeCategory(i)} />
+				<Categories value={categoryId} onChangeCategory={(i: number) => onChangeCategory(i)} />
 				<Sort />
 			</div>
 			{status === 'error' ? (
-				<div class="cart cart--empty" style={{ marginTop: '100px' }}>
+				<div className="cart cart--empty" style={{ marginTop: '100px' }}>
 					<h2>
-						ЙОЙ! <icon>😕</icon>
+						ЙОЙ! <span>😕</span>
 					</h2>
 					<p>
 						Сталася помилка!
@@ -119,4 +124,4 @@ export function Home() {
 			)}
 		</div>
 	);
-}
+};
