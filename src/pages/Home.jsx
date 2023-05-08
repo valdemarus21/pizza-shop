@@ -17,8 +17,8 @@ import { Sort, list } from '../components/Sort';
 import { PizzaBlock } from '../components/PizzaBlock/PizzaBlock';
 import { Pagination } from '../components/Pagination';
 import Skeleton from '../components/PizzaBlock/Skeleton';
-
 export function Home() {
+	
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);

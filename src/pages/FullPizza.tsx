@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-export function FullPizza() {
+export function FullPizza(){
 	const { id } = useParams();
-	const [pizza, setPizza] = useState();
+	const [pizza, setPizza] = useState<{
+		imageUrl: string,
+		title: string,
+		price: number,
+	}>();
 	React.useEffect(() => {
 		async function fetchPizza() {
 			try {
@@ -13,21 +17,21 @@ export function FullPizza() {
 				console.log('error :', error);
 			}
 		}
-        fetchPizza()
+		fetchPizza();
 	}, []);
-    if(!pizza){
-        return (
-            <div className="">
-                Завантаження ... 
-            </div>
-        )
-    }
+	if (!pizza) {
+		return (
+			<>
+				<div className="">Завантаження ...</div>
+			</>
+		);
+	}
 	return (
 		<>
 			<div className="container">
 				<img src={pizza.imageUrl} alt="" />
 				<h2>{pizza.title}</h2>
-				<p></p>
+				<p>fgb</p>
 				<h4>{pizza.price}</h4>
 			</div>
 		</>
