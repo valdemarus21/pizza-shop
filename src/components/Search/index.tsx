@@ -9,7 +9,7 @@ export function Search() {
 	const dispatch = useDispatch();
 	const [value, setValue] = React.useState('');
 	const inputRef = React.useRef<HTMLInputElement>(null);
-	const onClickClear = () => {
+	const onClickClear = (event: React.MouseEvent<SVGSVGElement>) => {
 		dispatch(setSearchValue(''));
 		setValue('');
 			inputRef.current?.focus()
@@ -21,7 +21,7 @@ export function Search() {
 		}, 1000),
 		[],
 	);
-	const onChangeInput = (event: any) => {
+	const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setValue(event.target.value);
 		updateSearchValue(event.target.value);
 	};
@@ -71,7 +71,7 @@ export function Search() {
 				/>
 				{value && (
 					<svg
-						onClick={() => onClickClear()}
+						onClick={(event) => onClickClear(event)}
 						className={styles.clearIcon}
 						viewBox="0 0 20 20"
 						xmlns="http://www.w3.org/2000/svg">
