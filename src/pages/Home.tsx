@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import qs from 'qs';
 
 import { Link, useNavigate } from 'react-router-dom';
@@ -24,7 +24,6 @@ import { RootState, useAppDispatch } from '../redux/store';
 
 export const Home: React.FC = () => {
 	const navigate = useNavigate();
-	// const dispatch = useDispatch();
 	const dispatch = useAppDispatch()
 	const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
 	const pizzaItems = useSelector((state: RootState) => state.pizza.items);
@@ -42,7 +41,6 @@ export const Home: React.FC = () => {
 
 	const getPizzas = async () => {
 		try {
-			// setIsLoading(true);
 			const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
 			const sortBy = sort.sortProperty.replace('-', '');
 			const category = categoryId > 0 ? `&category=${categoryId}` : '';

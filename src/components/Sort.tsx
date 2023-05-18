@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectSort, setSort } from '../redux/slices/filterSlice';
 import { RootState, useAppDispatch } from '../redux/store';
 
