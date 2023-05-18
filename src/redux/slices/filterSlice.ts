@@ -3,10 +3,10 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 type Sort = {
 	name: string;
-	sortProperty: 'rating' | '-rating' | 'title' | '-title' | 'price' | '-price';
+	sortProperty: string;
 };
 
-interface FilterSliceState {
+export interface FilterSliceState {
 	searchValue: string;
 	categoryId: number;
 	currentPage: number;

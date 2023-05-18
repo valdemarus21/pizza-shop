@@ -5,6 +5,7 @@ import qs from 'qs';
 import { Link, useNavigate } from 'react-router-dom';
 // slices
 import {
+	FilterSliceState,
 	selectFilter,
 	setCategoryId,
 	setCurrentPage,
@@ -86,7 +87,7 @@ export const Home: React.FC = () => {
 				setFilters({
 					...params,
 					sort,
-				}),
+				} as unknown as FilterSliceState),
 			);
 			isSearch.current = true;
 		}
