@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-enum Status {
+export enum Status {
 	LOADING = 'loading',
 	SUCCESS = 'success',
 	ERROR = 'error'
@@ -21,7 +21,7 @@ type FetchPizzasArgs = {
 	sortBy: string;
 	category: string;
 	search: string;
-	currentPage: string;
+	currentPage: number;
 };
 interface PizzaSliceState {
 	items: Pizza[];

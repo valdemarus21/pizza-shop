@@ -17,17 +17,17 @@ import { Sort, list } from '../components/Sort';
 import { PizzaBlock } from '../components/PizzaBlock/PizzaBlock';
 import { Pagination } from '../components/Pagination';
 import Skeleton from '../components/PizzaBlock/Skeleton';
+import { RootState, useAppDispatch } from '../redux/store';
 
 // 
 
 export const Home: React.FC = () => {
 	const navigate = useNavigate();
-	const dispatch = useDispatch();
+	// const dispatch = useDispatch();
+	const dispatch = useAppDispatch()
 	const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
-	// @ts-ignore
-	const pizzaItems = useSelector((state) => state.pizza.items);
-	// @ts-ignore
-	let status = useSelector((state) => state.pizza.status);
+	const pizzaItems = useSelector((state: RootState) => state.pizza.items);
+	let status = useSelector((state: RootState) => state.pizza.status);
 	const isSearch = React.useRef(false);
 	const isMounted = React.useRef(false);
 
@@ -47,7 +47,6 @@ export const Home: React.FC = () => {
 			const category = categoryId > 0 ? `&category=${categoryId}` : '';
 			const search = searchValue ? `&search=${searchValue}` : '';
 			dispatch(
-				// @ts-ignore
 				fetchPizzas({
 					order,
 					sortBy,
