@@ -92,9 +92,9 @@ export const Home: React.FC = () => {
 	}, []);
 
 	const pizzas = pizzaItems.map((obj: any, index: number) => (
-		<Link key={index} to={`/pizza/${obj.id}`}>
+		// <Link key={index} to={`/pizza/${obj.id}`}>
 			<PizzaBlock {...obj} />
-		</Link>
+		// </Link>
 	));
 	const skeleton = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
 	return (
