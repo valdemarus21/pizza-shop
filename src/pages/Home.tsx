@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import qs from 'qs';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // slices
 import {
 	FilterSliceState,
@@ -14,26 +14,24 @@ import {
 import { fetchPizzas } from '../redux/slices/pizzaSlice';
 // components
 import { Categories } from '../components/Categories';
-import { Sort, list } from '../components/Sort';
+import { SortPopup, list } from '../components/Sort';
 import { PizzaBlock } from '../components/PizzaBlock/PizzaBlock';
 import { Pagination } from '../components/Pagination';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import { RootState, useAppDispatch } from '../redux/store';
 
-// 
-
 export const Home: React.FC = () => {
 	const navigate = useNavigate();
-	const dispatch = useAppDispatch()
+	const dispatch = useAppDispatch();
 	const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
 	const pizzaItems = useSelector((state: RootState) => state.pizza.items);
 	let status = useSelector((state: RootState) => state.pizza.status);
 	const isSearch = React.useRef(false);
 	const isMounted = React.useRef(false);
 
-	const onChangeCategory = (id: number) => {
+	const onChangeCategory = React.useCallback((id: number) => {
 		dispatch(setCategoryId(id));
-	};
+	}, [])
 
 	const onChangePage = (number: number) => {
 		dispatch(setCurrentPage(number));
@@ -91,17 +89,13 @@ export const Home: React.FC = () => {
 		}
 	}, []);
 
-	const pizzas = pizzaItems.map((obj: any, index: number) => (
-		// <Link key={index} to={`/pizza/${obj.id}`}>
-			<PizzaBlock {...obj} />
-		// </Link>
-	));
+	const pizzas = pizzaItems.map((obj: any, index: number) => <PizzaBlock {...obj} key={obj.key} />);
 	const skeleton = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
 	return (
 		<div className="container">
 			<div className="content__top">
 				<Categories value={categoryId} onChangeCategory={(i: number) => onChangeCategory(i)} />
-				<Sort />
+				<SortPopup value={sort} />
 			</div>
 			{status === 'error' ? (
 				<div className="cart cart--empty" style={{ marginTop: '100px' }}>
