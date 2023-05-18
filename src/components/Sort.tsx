@@ -1,12 +1,12 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectSort, setSort } from '../redux/slices/filterSlice';
+import { RootState } from '../redux/store';
 
 type SortItem = {
 	name: string;
 	sortProperty: string;
 };
-type PopupClick = React.MouseEvent<HTMLBodyElement> & {};
 
 export const list: SortItem[] = [
 	{
@@ -36,7 +36,7 @@ export const list: SortItem[] = [
 ];
 export function Sort() {
 	const dispatch = useDispatch();
-	const sort = useSelector((state) => selectSort(state));
+	const sort = useSelector((state: RootState) => selectSort(state));
 	const sortRef = React.useRef<HTMLDivElement>(null);
 
 	const [open, setOpen] = React.useState(false);
