@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
-export const FullPizza: React.FC = () => {
+import { Link, useParams } from 'react-router-dom';
+const FullPizza: React.FC = () => {
 	const { id } = useParams();
 	const [pizza, setPizza] = useState<{
 		imageUrl: string;
@@ -32,7 +32,11 @@ export const FullPizza: React.FC = () => {
 				<img src={pizza.imageUrl} alt="" />
 				<h2>{pizza.title}</h2>
 				<h4>{pizza.price} грн.</h4>
+				<Link to="/">
+					<button style={{ marginTop: 25}} className="button button-outline button--add">Назад</button>
+				</Link>
 			</div>
 		</>
 	);
-}
+};
+export default FullPizza;
