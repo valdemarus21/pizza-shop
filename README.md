@@ -1,3 +1,4 @@
+on vercel : https://pizza-shop-valdemarus21.vercel.app/
 To create this project I used this stack : 
 
 - JS,
@@ -25,7 +26,7 @@ cd pizza-proj
 ```
 install the dependencies : 
 ```
-sudo npm install
+sudo npm install --legacy-deps
 ```
 start the project : 
 ```
